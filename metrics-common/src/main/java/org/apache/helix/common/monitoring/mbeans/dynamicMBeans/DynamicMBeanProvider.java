@@ -1,4 +1,4 @@
-package org.apache.helix.monitoring.mbeans.dynamicMBeans;
+package org.apache.helix.common.monitoring.mbeans.dynamicMBeans;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -36,8 +36,8 @@ import javax.management.MBeanNotificationInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.ObjectName;
 
-import org.apache.helix.monitoring.SensorNameProvider;
-import org.apache.helix.monitoring.mbeans.MBeanRegistrar;
+import org.apache.helix.common.monitoring.SensorNameProvider;
+import org.apache.helix.common.monitoring.mbeans.MBeanRegistrar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

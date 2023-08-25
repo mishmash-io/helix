@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.management.JMException;
-import org.apache.helix.monitoring.mbeans.MBeanRegistrar;
-import org.apache.helix.monitoring.mbeans.MonitorDomainNames;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMetric;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.HistogramDynamicMetric;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
+
+import org.apache.helix.common.monitoring.mbeans.MBeanRegistrar;
+import org.apache.helix.common.monitoring.mbeans.MonitorDomainNames;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.HistogramDynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
 
 public class ViewAggregatorMonitor extends DynamicMBeanProvider {
   /* package */ static final String MBEAN_DOMAIN = MonitorDomainNames.ClusterStatus.name();

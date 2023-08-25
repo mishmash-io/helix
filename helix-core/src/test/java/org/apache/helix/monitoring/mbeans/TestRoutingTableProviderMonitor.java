@@ -29,6 +29,8 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
 import org.apache.helix.PropertyType;
+import org.apache.helix.common.monitoring.mbeans.MBeanRegistrar;
+import org.apache.helix.common.monitoring.mbeans.MonitorDomainNames;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

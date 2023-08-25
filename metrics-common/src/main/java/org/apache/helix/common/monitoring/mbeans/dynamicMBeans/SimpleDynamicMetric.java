@@ -1,4 +1,4 @@
-package org.apache.helix.monitoring.mbeans.dynamicMBeans;
+package org.apache.helix.common.monitoring.mbeans.dynamicMBeans;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

@@ -28,10 +28,11 @@ import com.codahale.metrics.Histogram;
 import com.codahale.metrics.SlidingTimeWindowArrayReservoir;
 import org.apache.helix.HelixConstants;
 import org.apache.helix.InstanceType;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMetric;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.HistogramDynamicMetric;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.MonitorDomainNames;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.HistogramDynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
 
 public class HelixCallbackMonitor extends DynamicMBeanProvider {
   public static final String MONITOR_TYPE = "Type";

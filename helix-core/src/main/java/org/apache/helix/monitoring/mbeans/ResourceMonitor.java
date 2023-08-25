@@ -33,13 +33,13 @@ import com.codahale.metrics.Histogram;
 import com.codahale.metrics.SlidingTimeWindowArrayReservoir;
 import com.google.common.collect.Lists;
 import org.apache.helix.HelixDefinedState;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.HistogramDynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.StateModelDefinition;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMetric;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.HistogramDynamicMetric;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
 
 public class ResourceMonitor extends DynamicMBeanProvider {
 

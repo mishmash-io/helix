@@ -25,9 +25,10 @@ import javax.management.JMException;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMetric;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.MonitorDomainNames;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
 import org.apache.helix.task.TaskState;
 
 import static org.apache.helix.monitoring.mbeans.ClusterStatusMonitor.CLUSTER_DN_KEY;

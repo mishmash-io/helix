@@ -23,7 +23,8 @@ import java.lang.management.ManagementFactory;
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import org.apache.helix.monitoring.mbeans.MBeanRegistrar;
+
+import org.apache.helix.common.monitoring.mbeans.MBeanRegistrar;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

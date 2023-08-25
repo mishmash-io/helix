@@ -27,12 +27,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.management.JMException;
 import javax.management.ObjectName;
 
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMetric;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
 
 
 /**

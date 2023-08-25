@@ -36,9 +36,9 @@ import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
 import org.apache.helix.TestHelper;
+import org.apache.helix.common.monitoring.mbeans.MonitorDomainNames;
 import org.apache.helix.model.Message;
 import org.apache.helix.monitoring.mbeans.ClusterMBeanObserver;
-import org.apache.helix.monitoring.mbeans.MonitorDomainNames;
 import org.apache.helix.monitoring.mbeans.ParticipantMessageMonitor;
 import org.apache.helix.monitoring.mbeans.ParticipantStatusMonitor;
 import org.slf4j.Logger;

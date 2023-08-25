@@ -35,8 +35,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
-import org.apache.helix.monitoring.mbeans.MBeanRegistrar;
-import org.apache.helix.monitoring.mbeans.MonitorDomainNames;
+import org.apache.helix.common.monitoring.mbeans.MBeanRegistrar;
+import org.apache.helix.common.monitoring.mbeans.MonitorDomainNames;
 import org.apache.helix.zookeeper.constant.ZkSystemPropertyKeys;
 import org.apache.helix.zookeeper.datamodel.SessionAwareZNRecord;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;

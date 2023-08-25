@@ -1,4 +1,4 @@
-package org.apache.helix.monitoring.mbeans.exception;
+package org.apache.helix.common.monitoring.mbeans;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,17 +19,16 @@ package org.apache.helix.monitoring.mbeans.exception;
  * under the License.
  */
 
-public class MetricException extends RuntimeException {
-
-  public MetricException(String message) {
-    super(message);
-  }
-
-  public MetricException(Throwable cause) {
-    super(cause);
-  }
-
-  public MetricException(String message, Throwable cause) {
-    super(message, cause);
-  }
+/**
+ * This enum defines all of domain names used with various Helix monitor mbeans.
+ */
+public enum MonitorDomainNames {
+  ClusterStatus,
+  HelixZkClient,
+  HelixThreadPoolExecutor,
+  HelixCallback,
+  RoutingTableProvider,
+  CLMParticipantReport,
+  Rebalancer,
+  AggregatedView
 }

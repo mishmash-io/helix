@@ -31,12 +31,12 @@ import javax.management.MBeanAttributeInfo;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import org.apache.helix.monitoring.mbeans.MBeanRegistrar;
-import org.apache.helix.monitoring.mbeans.MonitorDomainNames;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMetric;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
-import org.apache.helix.monitoring.mbeans.exception.MetricException;
+import org.apache.helix.common.monitoring.mbeans.MBeanRegistrar;
+import org.apache.helix.common.monitoring.mbeans.MonitorDomainNames;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.exception.MetricException;
 import org.apache.helix.zookeeper.zkclient.ZkEventThread;
 
 

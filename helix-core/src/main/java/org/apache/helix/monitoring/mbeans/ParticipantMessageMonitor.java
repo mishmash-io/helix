@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.management.JMException;
 
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.DynamicMetric;
-import org.apache.helix.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMBeanProvider;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.DynamicMetric;
+import org.apache.helix.common.monitoring.mbeans.dynamicMBeans.SimpleDynamicMetric;
 
 public class ParticipantMessageMonitor extends DynamicMBeanProvider {
   private static final String MBEAN_DESCRIPTION = "Helix Participant Message Monitor";

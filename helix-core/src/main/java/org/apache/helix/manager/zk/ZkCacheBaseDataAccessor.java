@@ -44,7 +44,7 @@ import org.apache.helix.zookeeper.zkclient.exception.ZkNoNodeException;
 import org.apache.helix.zookeeper.zkclient.serialize.ZkSerializer;
 import org.apache.zookeeper.KeeperException.Code;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.DataTree;
+import org.apache.zookeeper.util.DataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -370,7 +370,7 @@ public class ZkCacheBaseDataAccessor<T> implements HelixPropertyStore<T> {
         // TODO: shall return a deep copy instead of reference
         record = ((T) znode.getData());
         if (stat != null) {
-          DataTree.copyStat(znode.getStat(), stat);
+          DataUtils.copyStat(znode.getStat(), stat);
         }
         return record;
 

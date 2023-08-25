@@ -29,6 +29,8 @@ import javax.management.ObjectName;
 
 import org.apache.helix.HelixConstants;
 import org.apache.helix.InstanceType;
+import org.apache.helix.common.monitoring.mbeans.MBeanRegistrar;
+import org.apache.helix.common.monitoring.mbeans.MonitorDomainNames;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

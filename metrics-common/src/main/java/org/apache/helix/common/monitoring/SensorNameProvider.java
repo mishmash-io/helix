@@ -1,4 +1,4 @@
-package org.apache.helix.monitoring;
+package org.apache.helix.common.monitoring;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

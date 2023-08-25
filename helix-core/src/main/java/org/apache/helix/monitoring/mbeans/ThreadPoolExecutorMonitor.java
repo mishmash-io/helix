@@ -23,6 +23,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import javax.management.JMException;
 import javax.management.ObjectName;
 
+import org.apache.helix.common.monitoring.mbeans.MBeanRegistrar;
+import org.apache.helix.common.monitoring.mbeans.MonitorDomainNames;
+
 public class ThreadPoolExecutorMonitor implements ThreadPoolExecutorMonitorMBean {
   public static final String TYPE = "Type";
 
