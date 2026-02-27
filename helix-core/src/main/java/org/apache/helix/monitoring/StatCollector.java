@@ -19,8 +19,8 @@ package org.apache.helix.monitoring;
  * under the License.
  */
 
-import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math.stat.descriptive.SynchronizedDescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.SynchronizedDescriptiveStatistics;
 
 public class StatCollector {
   private static final int DEFAULT_WINDOW_SIZE = 100;

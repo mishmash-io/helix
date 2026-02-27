@@ -42,6 +42,7 @@ import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
 import org.apache.hc.core5.http.HttpRequest;
 import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.util.TimeValue;
@@ -107,6 +108,7 @@ public class AzureCloudInstanceInformationProcessor
       CloseableHttpClient closeableHttpClient) {
     _helixCloudProperty = helixCloudProperty;
     _closeableHttpClient = closeableHttpClient;
+    _httpConnectionManager = null;
   }
 
   /**
@@ -142,7 +144,7 @@ public class AzureCloudInstanceInformationProcessor
       String responseString = EntityUtils.toString(response.getEntity());
       LOG.info("VM instance information query result: {}", responseString);
       return responseString;
-    } catch (IOException e) {
+    } catch (ParseException | IOException e) {
       throw new HelixException(
           String.format("Failed to get Azure cloud instance information from url %s", url), e);
     }
