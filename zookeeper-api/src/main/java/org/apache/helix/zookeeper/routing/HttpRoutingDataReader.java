@@ -23,19 +23,23 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.helix.msdcommon.constant.MetadataStoreRoutingConstants;
 import org.apache.helix.zookeeper.exception.MultiZkException;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultBackoffStrategy;
-import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.DefaultBackoffStrategy;
+import org.apache.hc.client5.http.impl.DefaultHttpRequestRetryStrategy;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.util.TimeValue;
 
 
 /**
@@ -75,19 +79,29 @@ public class HttpRoutingDataReader implements RoutingDataReader {
         msdsEndpoint + MetadataStoreRoutingConstants.MSDS_GET_ALL_ROUTING_DATA_ENDPOINT);
 
     // Define timeout configs
-    RequestConfig config = RequestConfig.custom().setConnectTimeout(DEFAULT_HTTP_TIMEOUT_IN_MS)
-        .setConnectionRequestTimeout(DEFAULT_HTTP_TIMEOUT_IN_MS)
-        .setSocketTimeout(DEFAULT_HTTP_TIMEOUT_IN_MS).build();
+    RequestConfig config = RequestConfig.custom()
+        .setConnectionRequestTimeout(DEFAULT_HTTP_TIMEOUT_IN_MS, TimeUnit.MILLISECONDS)
+        .build();
+    ConnectionConfig conConfig = ConnectionConfig.custom()
+        .setConnectTimeout(DEFAULT_HTTP_TIMEOUT_IN_MS, TimeUnit.MILLISECONDS)
+        .setSocketTimeout(DEFAULT_HTTP_TIMEOUT_IN_MS, TimeUnit.MILLISECONDS)
+        .build();
 
-    try (CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(config)
-        .setConnectionBackoffStrategy(new DefaultBackoffStrategy())
-        .setRetryHandler(new DefaultHttpRequestRetryHandler()).build()) {
-      // Return the JSON because try-resources clause closes the CloseableHttpResponse
-      HttpEntity entity = httpClient.execute(requestAllData).getEntity();
-      if (entity == null) {
-        throw new IOException("Response's entity is null!");
+    try (BasicHttpClientConnectionManager manager = new BasicHttpClientConnectionManager()) {
+      manager.setConnectionConfig(conConfig);
+
+      try (CloseableHttpClient httpClient = HttpClients.custom()
+            .setDefaultRequestConfig(config)
+            .setConnectionManager(manager)
+            .setConnectionBackoffStrategy(new DefaultBackoffStrategy())
+            .setRetryStrategy(new DefaultHttpRequestRetryStrategy(3, TimeValue.ofSeconds(1))).build()) {
+        // Return the JSON because try-resources clause closes the CloseableHttpResponse
+        HttpEntity entity = httpClient.execute(requestAllData).getEntity();
+        if (entity == null) {
+          throw new IOException("Response's entity is null!");
+        }
+        return EntityUtils.toString(entity, "UTF-8");
       }
-      return EntityUtils.toString(entity, "UTF-8");
     }
   }
 

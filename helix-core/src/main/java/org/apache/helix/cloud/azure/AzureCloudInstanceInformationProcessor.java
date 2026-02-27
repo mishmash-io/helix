@@ -24,6 +24,7 @@ import java.io.InterruptedIOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLException;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -31,14 +32,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.helix.HelixCloudProperty;
 import org.apache.helix.HelixException;
 import org.apache.helix.api.cloud.CloudInstanceInformationProcessor;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.HttpRequestRetryStrategy;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.util.TimeValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +53,7 @@ public class AzureCloudInstanceInformationProcessor
   private static final Logger LOG =
       LoggerFactory.getLogger(AzureCloudInstanceInformationProcessor.class);
   private final CloseableHttpClient _closeableHttpClient;
+  private final BasicHttpClientConnectionManager _httpConnectionManager;
   private final HelixCloudProperty _helixCloudProperty;
   private static final String COMPUTE = "compute";
   private static final String INSTANCE_NAME = "name";
@@ -57,20 +64,38 @@ public class AzureCloudInstanceInformationProcessor
     _helixCloudProperty = helixCloudProperty;
 
     RequestConfig requestConfig = RequestConfig.custom()
-        .setConnectionRequestTimeout((int) helixCloudProperty.getCloudRequestTimeout())
-        .setConnectTimeout((int) helixCloudProperty.getCloudConnectionTimeout()).build();
+        .setConnectionRequestTimeout(helixCloudProperty.getCloudRequestTimeout(), TimeUnit.MILLISECONDS)
+        .build();
+    ConnectionConfig conConfig = ConnectionConfig.custom()
+        .setConnectTimeout(helixCloudProperty.getCloudConnectionTimeout(), TimeUnit.MILLISECONDS)
+        .build();
 
-    HttpRequestRetryHandler httpRequestRetryHandler =
-        (IOException exception, int executionCount, HttpContext context) -> {
-          LOG.warn("Execution count: " + executionCount + ".", exception);
-          return !(executionCount >= helixCloudProperty.getCloudMaxRetry()
-              || exception instanceof InterruptedIOException
-              || exception instanceof UnknownHostException || exception instanceof SSLException);
-        };
+    HttpRequestRetryStrategy httpRequestRetryStrategy = new HttpRequestRetryStrategy() {
+      @Override
+      public TimeValue getRetryInterval(HttpResponse response, int executionCount, HttpContext context) {
+        return TimeValue.ZERO_MILLISECONDS;
+      }
+      @Override
+      public boolean retryRequest(HttpResponse response, int executionCount, HttpContext context) {
+        // Azure IMDS replied, so, no need to retry
+        return false;
+      }
+      @Override
+      public boolean retryRequest(HttpRequest request, IOException exception, int executionCount, HttpContext context) {
+        LOG.warn("Execution count: " + executionCount + ".", exception);
+        return !(executionCount >= helixCloudProperty.getCloudMaxRetry()
+          || exception instanceof InterruptedIOException
+          || exception instanceof UnknownHostException || exception instanceof SSLException);
+      }
+    };
 
+    _httpConnectionManager = new BasicHttpClientConnectionManager();
+    _httpConnectionManager.setConnectionConfig(conConfig);
     //TODO: we should regularize the way how httpClient should be used throughout Helix. e.g. Helix-rest could also use in the same way
-    _closeableHttpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig)
-        .setRetryHandler(httpRequestRetryHandler).build();
+    _closeableHttpClient = HttpClients.custom()
+        .setDefaultRequestConfig(requestConfig)
+        .setConnectionManager(_httpConnectionManager)
+        .setRetryStrategy(httpRequestRetryStrategy).build();
   }
 
   /**
@@ -107,11 +132,11 @@ public class AzureCloudInstanceInformationProcessor
 
     try {
       CloseableHttpResponse response = _closeableHttpClient.execute(httpGet);
-      if (response == null || response.getStatusLine().getStatusCode() != 200) {
+      if (response == null || response.getCode() != 200) {
         String errorMsg = String.format(
             "Failed to get an HTTP Response for the request. Response: %s. Status code: %s",
-            (response == null ? "NULL" : response.getStatusLine().getReasonPhrase()),
-            response.getStatusLine().getStatusCode());
+            (response == null ? "NULL" : response.getReasonPhrase()),
+            response.getCode());
         throw new HelixException(errorMsg);
       }
       String responseString = EntityUtils.toString(response.getEntity());

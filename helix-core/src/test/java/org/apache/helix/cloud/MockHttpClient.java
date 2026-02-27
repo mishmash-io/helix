@@ -21,11 +21,10 @@ package org.apache.helix.cloud;
 
 import java.io.InputStream;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
@@ -37,7 +36,6 @@ public class MockHttpClient {
   protected CloseableHttpClient createMockHttpClient(String file) throws Exception {
     InputStream responseInputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
     HttpEntity httpEntity = Mockito.mock(HttpEntity.class);
-    StatusLine statusLine = Mockito.mock(StatusLine.class);
 
     CloseableHttpResponse mockCloseableHttpResponse = Mockito.mock(CloseableHttpResponse.class);
     CloseableHttpClient mockCloseableHttpClient = Mockito.mock(CloseableHttpClient.class);
@@ -45,8 +43,7 @@ public class MockHttpClient {
     Mockito.when(httpEntity.getContent()).thenReturn(responseInputStream);
     Mockito.when(mockCloseableHttpClient.execute(Matchers.any(HttpGet.class))).thenReturn(mockCloseableHttpResponse);
     Mockito.when(mockCloseableHttpResponse.getEntity()).thenReturn(httpEntity);
-    Mockito.when(mockCloseableHttpResponse.getStatusLine()).thenReturn(statusLine);
-    Mockito.when(statusLine.getStatusCode()).thenReturn(200);
+    Mockito.when(mockCloseableHttpResponse.getCode()).thenReturn(200);
 
     return mockCloseableHttpClient;
   }
