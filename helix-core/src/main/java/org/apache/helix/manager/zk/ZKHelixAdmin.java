@@ -40,7 +40,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import com.google.common.collect.ImmutableSet;
 import org.apache.helix.AccessOption;

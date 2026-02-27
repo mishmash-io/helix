@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.HelixAdmin;

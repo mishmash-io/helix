@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.apache.helix.api.status.ClusterManagementMode;
 import org.apache.helix.api.status.ClusterManagementModeRequest;
