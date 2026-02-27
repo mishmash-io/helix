@@ -61,7 +61,7 @@ import org.apache.zookeeper.KeeperException.Code;
 import org.apache.zookeeper.Op;
 import org.apache.zookeeper.OpResult;
 import org.apache.zookeeper.data.Stat;
-import org.apache.zookeeper.server.DataTree;
+import org.apache.zookeeper.util.DataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -366,7 +366,7 @@ public class ZkBaseDataAccessor<T> implements BaseDataAccessor<T> {
       retry = false;
       try {
         Stat stat = _zkClient.writeDataGetStat(path, record, expectVersion);
-        DataTree.copyStat(stat, result._stat);
+        DataUtils.copyStat(stat, result._stat);
       } catch (ZkNoNodeException e) {
         // node not exists, try create if expectedVersion == -1; in this case, stat will not be set
         if (expectVersion != -1) {
@@ -441,7 +441,7 @@ public class ZkBaseDataAccessor<T> implements BaseDataAccessor<T> {
         T newData = updater.update(oldData);
         if (newData != null) {
           Stat setStat = _zkClient.writeDataGetStat(path, newData, readStat.getVersion());
-          DataTree.copyStat(setStat, result._stat);
+          DataUtils.copyStat(setStat, result._stat);
         }
         updatedData = newData;
       } catch (ZkBadVersionException e) {
