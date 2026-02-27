@@ -38,6 +38,7 @@ import org.apache.hc.client5.http.impl.classic.DefaultBackoffStrategy;
 import org.apache.hc.client5.http.impl.DefaultHttpRequestRetryStrategy;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
+import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.util.TimeValue;
 
@@ -101,6 +102,8 @@ public class HttpRoutingDataReader implements RoutingDataReader {
           throw new IOException("Response's entity is null!");
         }
         return EntityUtils.toString(entity, "UTF-8");
+      } catch (ParseException pe) {
+        throw new IOException("Response parsing failed", pe);
       }
     }
   }
